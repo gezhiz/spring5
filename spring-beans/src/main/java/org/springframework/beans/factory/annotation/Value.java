@@ -25,6 +25,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation at the field or method/constructor parameter level
  * that indicates a default value expression for the affected argument.
+ * 注解用在属性上或者方法参数构造参数上，标明参数的默认值。
  *
  * <p>Typically used for expression-driven dependency injection. Also supported
  * for dynamic resolution of handler method parameters, e.g. in Spring MVC.

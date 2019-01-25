@@ -82,7 +82,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Spring's default implementation of the {@link ConfigurableListableBeanFactory}
- * and {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory
+ * and {@link BeanDefinitionRegistry} interfaces: a full-fledged(成熟的) bean factory
  * based on bean definition metadata, extensible through post-processors.
  *
  * <p>Typical usage is registering all bean definitions first (possibly read
@@ -94,6 +94,7 @@ import org.springframework.util.StringUtils;
  * implemented separately rather than as bean factory subclasses:
  * see for example {@link PropertiesBeanDefinitionReader} and
  * {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
+ * 注意，特殊的bean定义格式的读取是完全分开实现的，而不是作为bean factory 的子类。
  *
  * <p>For an alternative implementation of the
  * {@link org.springframework.beans.factory.ListableBeanFactory} interface,

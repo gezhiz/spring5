@@ -57,11 +57,12 @@ public class RequestContextListener implements ServletRequestListener {
 		}
 		HttpServletRequest request = (HttpServletRequest) requestEvent.getServletRequest();
 		ServletRequestAttributes attributes = new ServletRequestAttributes(request);
-		request.setAttribute(REQUEST_ATTRIBUTES_ATTRIBUTE, attributes);
+		request.setAttribute(REQUEST_ATTRIBUTES_ATTRIBUTE, attributes);//把attributes对象设置到请求头上
 		LocaleContextHolder.setLocale(request.getLocale());
 		RequestContextHolder.setRequestAttributes(attributes);
 	}
 
+	//请求结束时的处理
 	@Override
 	public void requestDestroyed(ServletRequestEvent requestEvent) {
 		ServletRequestAttributes attributes = null;
