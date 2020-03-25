@@ -170,7 +170,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 */
 	public AbstractAutowireCapableBeanFactory() {
 		super();
-		//下面的接口需要使用其他的方式注入到容器中，所以要在容器初始化时加入忽略名单，不会自动装配
+		// 不对下列接口的实现类进行自动装配，
+		// 也就是在初始化BeanNameAware接口实现类时，不对BeanNameAware对象进行依赖注入，只进行构造初始化
 		ignoreDependencyInterface(BeanNameAware.class);
 		ignoreDependencyInterface(BeanFactoryAware.class);
 		ignoreDependencyInterface(BeanClassLoaderAware.class);

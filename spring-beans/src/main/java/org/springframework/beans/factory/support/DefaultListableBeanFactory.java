@@ -90,11 +90,12 @@ import org.springframework.util.StringUtils;
  * is therefore an inexpensive operation in a local bean definition table,
  * operating on pre-resolved bean definition metadata objects.
  *
+ * 注意：读取bean definition的类的并不是作为bean Factory 的子类，而是独立实现的。比如 PropertiesBeanDefinitionReader
  * <p>Note that readers for specific bean definition formats are typically
  * implemented separately rather than as bean factory subclasses:
  * see for example {@link PropertiesBeanDefinitionReader} and
  * {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
- * 注意，特殊的bean定义格式的读取是完全分开实现的，而不是作为bean factory 的子类。
+ *
  *
  * <p>For an alternative implementation of the
  * {@link org.springframework.beans.factory.ListableBeanFactory} interface,
@@ -133,7 +134,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	}
 
 
-	/** Map from serialized id to factory instance. */
+	/** Map from serialized id to factory instance.  可序列化id到factory instance 的映射*/
 	private static final Map<String, Reference<DefaultListableBeanFactory>> serializableFactories =
 			new ConcurrentHashMap<>(8);
 

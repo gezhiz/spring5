@@ -31,11 +31,15 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.StringValueResolver;
 
 /**
+ * 被大部分bean工厂实现的配置接口。提供配置一个bean工厂的工具。
  * Configuration interface to be implemented by most bean factories. Provides
  * facilities to configure a bean factory, in addition to the bean factory
  * client methods in the {@link org.springframework.beans.factory.BeanFactory}
  * interface.
  *
+ * 这个bean工厂接口不用于一般的应用程序。
+ * 只考虑用来作为内部插件实现
+ * 和作为bean工厂配置方法的特殊入口。
  * <p>This bean factory interface is not meant to be used in normal application
  * code: Stick to {@link org.springframework.beans.factory.BeanFactory} or
  * {@link org.springframework.beans.factory.ListableBeanFactory} for typical
@@ -66,6 +70,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
 
 	/**
+	 * 设置当前bean工厂的parent
+	 * 注意：parent不能被修改，否则抛出IllegalStateException
 	 * Set the parent of this bean factory.
 	 * <p>Note that the parent cannot be changed: It should only be set outside
 	 * a constructor if it isn't available at the time of factory instantiation.
