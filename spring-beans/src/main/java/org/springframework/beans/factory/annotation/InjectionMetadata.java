@@ -77,7 +77,7 @@ public class InjectionMetadata {
 		}
 		this.checkedElements = checkedElements;
 	}
-
+	//执行注入操作
 	public void inject(Object target, @Nullable String beanName, @Nullable PropertyValues pvs) throws Throwable {
 		Collection<InjectedElement> checkedElements = this.checkedElements;
 		Collection<InjectedElement> elementsToIterate =
@@ -118,8 +118,9 @@ public class InjectionMetadata {
 	 */
 	public abstract static class InjectedElement {
 
+		//成员，jdk原生成员类
 		protected final Member member;
-
+		//表示是否为字段
 		protected final boolean isField;
 
 		@Nullable

@@ -70,12 +70,16 @@ import org.springframework.util.StringUtils;
  */
 public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements SingletonBeanRegistry {
 
+	//三级缓存
+	//完成初始化bean对象的缓存 一级缓存
 	/** Cache of singleton objects: bean name to bean instance. */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
 
+	//进入实例化的单例工厂  三级缓存
 	/** Cache of singleton factories: bean name to ObjectFactory. */
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
+	//提前暴露的单例bean对象的缓存 进入实例化但未完成初始化 二级缓存
 	/** Cache of early singleton objects: bean name to bean instance. */
 	private final Map<String, Object> earlySingletonObjects = new HashMap<>(16);
 
@@ -175,12 +179,19 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		Object singletonObject = this.singletonObjects.get(beanName);
+		//一级缓存中未取到bean对象，则进入
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
 			synchronized (this.singletonObjects) {
+				//从二级缓存中获取 （已实例化，但为初始化的对象）
 				singletonObject = this.earlySingletonObjects.get(beanName);
 				if (singletonObject == null && allowEarlyReference) {
 					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 					if (singletonFactory != null) {
+						//从三级缓存中获取，如果三级缓存中存在，则调用getObject()方法初始化具体对象，然后提前暴露这个对象
+
+						//举例 ClassA 和ClassB相互setter依赖，A在二级缓存实例已经提前暴露。然后发现自己依赖B对象，开始出发B的初始化
+						//B的初始化过程中，发现自己依赖A，然后调用getSingleton(A),结果在二级缓存中拿到了A对象，然后顺利的完成了初始化，并把自己放入一级缓存
+						//A对象进行setter(B),调用getSingleton(B),顺利完成A的初始化。而之前B对象已经拥有了A对象的引用，所以A也顺利完成了。
 						singletonObject = singletonFactory.getObject();
 						this.earlySingletonObjects.put(beanName, singletonObject);
 						this.singletonFactories.remove(beanName);
