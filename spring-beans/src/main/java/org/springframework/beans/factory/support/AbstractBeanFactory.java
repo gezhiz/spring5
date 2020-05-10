@@ -317,6 +317,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
+							//创建bean
 							return createBean(beanName, mbd, args);
 						}
 						catch (BeansException ex) {
@@ -1374,6 +1375,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 		try {
 			if (mbd.hasBeanClass()) {
+				//如果当前的类已经被加载了，则hasBeanClass直接返回这个class对象
 				return mbd.getBeanClass();
 			}
 			if (System.getSecurityManager() != null) {
@@ -1400,7 +1402,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private Class<?> doResolveBeanClass(RootBeanDefinition mbd, Class<?>... typesToMatch)
 			throws ClassNotFoundException {
 
+		//当前的classloader
 		ClassLoader beanClassLoader = getBeanClassLoader();
+		//
 		ClassLoader dynamicLoader = beanClassLoader;
 		boolean freshResolve = false;
 
@@ -1449,6 +1453,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 						}
 					}
 				}
+				//加载类
 				return ClassUtils.forName(className, dynamicLoader);
 			}
 		}
