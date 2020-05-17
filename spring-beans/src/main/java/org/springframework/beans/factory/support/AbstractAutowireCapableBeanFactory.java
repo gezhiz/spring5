@@ -420,6 +420,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		for (BeanPostProcessor processor : getBeanPostProcessors()) {
 			Object current = processor.postProcessBeforeInitialization(result, beanName);
 			if (current == null) {
+				//回调接口方法返回null，则使用原有的bean对象，否则使用新的bean对象
 				return result;
 			}
 			result = current;
